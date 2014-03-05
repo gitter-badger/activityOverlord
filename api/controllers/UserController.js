@@ -18,12 +18,10 @@
 module.exports = {
     
     'new': function (req, res) {
-        res.locals.flash = _.clone(req.session.flash);
         res.view();
-        req.session.flash = {};
     },
     
-    'create': function (req, res, next) {
+    create: function (req, res, next) {
     //    Create a User with the params sent from 
     //    the sig-up form --> new.ejs
         User.create( req.params.all(), function userCreated (err, user) {
@@ -39,7 +37,6 @@ module.exports = {
         //  After successfully creating the user
         //  redirect to the show action
             res.json(user);
-            req.session.flash = {};
         });        
     }
 };
