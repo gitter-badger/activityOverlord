@@ -19,8 +19,6 @@ var bcrypt = require('bcrypt');
 module.exports = {
 
   'new': function (req, res) {
-    req.session.authenticated = true;
-    console.log(req.session);
 
     res.view('session/new');
   },
@@ -111,7 +109,12 @@ module.exports = {
           res.redirect('/user/show/' + user.id);
         });
       });
-  }
+  },
+
+  destroy: function(req, res, next) {
+  req.session.destroy();
+  res.redirect('/session/new');
+}
     
   
 
