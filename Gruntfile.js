@@ -52,15 +52,17 @@ module.exports = function (grunt) {
     // then beef it up with some convenience logic for talking to Sails.js
     'linker/js/sails.io.js',
 
+    'linker/js/jquery.js',
+    'linker/js/jquery.validate.min.js',
+
     // A simpler boilerplate library for getting you up and running w/ an
     // automatic listener for incoming messages from Socket.io.
     'linker/js/app.js',
 
     // *->    put other dependencies here   <-*
-      
-    'linker/js/jquery.js',
-    'linker/js/jquery.validate.min.js',
-      
+
+
+
     // All of the rest of your app scripts imported here
     'linker/**/*.js'
   ];
@@ -77,7 +79,7 @@ module.exports = function (grunt) {
    */
 
   var templateFilesToInject = [
-    'linker/**/*.html'
+    'linker/**/*.ejs'
   ];
 
 
@@ -135,7 +137,6 @@ module.exports = function (grunt) {
   grunt.loadTasks(depsPath + '/grunt-contrib-uglify/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-cssmin/tasks');
   grunt.loadTasks(depsPath + '/grunt-contrib-less/tasks');
-  grunt.loadTasks(depsPath + '/grunt-contrib-coffee/tasks');
 
   // Project configuration.
   grunt.initConfig({
@@ -147,7 +148,7 @@ module.exports = function (grunt) {
           {
           expand: true,
           cwd: './assets',
-          src: ['**/*.!(coffee)'],
+          src: ['**/*'],
           dest: '.tmp/public'
         }
         ]
@@ -171,14 +172,11 @@ module.exports = function (grunt) {
 
     jst: {
       dev: {
-
-        // To use other sorts of templates, specify the regexp below:
-        // options: {
-        //   templateSettings: {
-        //     interpolate: /\{\{(.+?)\}\}/g
-        //   }
-        // },
-
+        options: {
+          templateSettings: {
+            interpolate: /\{\{(.+?)\}\}/g
+          }
+        },
         files: {
           '.tmp/public/jst.js': templateFilesToInject
         }
@@ -201,29 +199,6 @@ module.exports = function (grunt) {
           dest: '.tmp/public/linker/styles/',
           ext: '.css'
         }
-        ]
-      }
-    },
-    
-    coffee: {
-      dev: {
-        options:{
-          bare:true
-        },
-        files: [
-          {
-            expand: true,
-            cwd: 'assets/js/',
-            src: ['**/*.coffee'],
-            dest: '.tmp/public/js/',
-            ext: '.js'
-          }, {
-            expand: true,
-            cwd: 'assets/linker/js/',
-            src: ['**/*.coffee'],
-            dest: '.tmp/public/linker/js/',
-            ext: '.js'
-          }
         ]
       }
     },
@@ -426,8 +401,7 @@ module.exports = function (grunt) {
     'clean:dev',
     'jst:dev',
     'less:dev',
-    'copy:dev',    
-    'coffee:dev'
+    'copy:dev'
   ]);
 
   grunt.registerTask('linkAssets', [
@@ -457,7 +431,6 @@ module.exports = function (grunt) {
     'jst:dev',
     'less:dev',
     'copy:dev',
-    'coffee:dev',
     'concat',
     'uglify',
     'cssmin',

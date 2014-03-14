@@ -15,7 +15,7 @@
         on the client using a solution like AMD (RequireJS).  Or, if you like, you can
         take advantage of Sails' boilerplate asset management.
 
-        By default, stylesheets from your `assets/linker/styles` folder are included
+        By default, tylesheets from your `assets/linker/styles` folder are included
         here automatically.  Both CSS (.css) and LESS (.less) are supported.
         In production, your styles will be minified and concatenated into a single file.
         
@@ -31,12 +31,24 @@
     <link rel="stylesheet" href="/linker/styles/bootstrap.css">
     <link rel="stylesheet" href="/linker/styles/custom.css">
     <!--STYLES END-->
-      
+
+    <!--Added this so the client has access to the csrf tag and it's grabbed first service side on every page -->
+    <script type="text/javascript">
+      window.overlord = { csrf: "<%= _csrf %>" };
+    </script>
+
+    <!-- The sound file tht will play on activity events -->
+    <audio id="chatAudio">
+      <source src="/sounds/notify.ogg" type="audio/ogg">
+      <source src="/sounds/notify.mp3" type="audio/mpeg">
+      <source src="/sounds/notify.wav" type="audio/wav">
+    </audio>
+
   </head>
 
   <body>
-      
-       <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -50,6 +62,8 @@
           <ul class="nav navbar-nav">
             <% if (session.authenticated) { %>
               <li class="active"><a href="/user/show/<%= session.User.id %>"><%= session.User.name %> </a> </li>
+            <% } %>
+            <% if (session.authenticated && session.User.admin) { %>
             <li><a href="/user">User Administration</a></li>
             <li><a href="#">Placeholder2</a></li>
             <% } %>
@@ -74,25 +88,24 @@
         </div>
       </div>
     </div>
-      
+    
     <%- body %>
-      <div class="container">
-        <hr>
-        <footer class="footer pull-right">
-            <div>
-              <a href="http://sailsjs.com/">sails.js</a> 
-              <div>exercise by Nina</div>
-            </div>
-        </footer>
-     </div>
 
-
+    <div class="container">
+      <hr>
+      <footer class="footer pull-right">
+        <div>
+          <a href="http://sailsjs.com/">sails.js</a> 
+          <div>tutorial by irl nathan, with a bunch of help from cody, gabe, heather, mike, scott and zoli</div>
+        </div>
+      </footer>
+    </div>
 
     <!--
         Client-side Templates
         ========================
 
-    		HTML templates are important prerequisites of modern, rich client applications.
+        HTML templates are important prerequisites of modern, rich client applications.
         To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
         that you load these templates client-side.
 
@@ -110,7 +123,7 @@
     -->
 
     <!--TEMPLATES-->
-    
+    <script type="text/javascript" src="/jst.js"></script>
     <!--TEMPLATES END-->
 
 
@@ -139,11 +152,12 @@
     <!--SCRIPTS-->
     <script src="/linker/js/socket.io.js"></script>
     <script src="/linker/js/sails.io.js"></script>
-    <script src="/linker/js/app.js"></script>
     <script src="/linker/js/jquery.js"></script>
     <script src="/linker/js/jquery.validate.min.js"></script>
+    <script src="/linker/js/app.js"></script>
     <script src="/linker/js/bootstrap.js"></script>
     <script src="/linker/js/customValidate.js"></script>
+    <script src="/linker/js/underscore.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>
