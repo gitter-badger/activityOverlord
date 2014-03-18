@@ -1,4 +1,4 @@
-/**
+ /**
  * Views
  * 
  * Server-sent views are a classic and effective way to get your app up and running.
