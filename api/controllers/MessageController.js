@@ -17,14 +17,10 @@
 
 module.exports = {
     
-  
-
-
-  /**
-   * Overrides for the settings in `config/controllers.js`
-   * (specific to MessageController)
-   */
-  _config: {}
-
-  
+index: function (req, res) {
+    res.view('message/index', {
+      user: true,
+      error: false
+    });
+  }
 };
